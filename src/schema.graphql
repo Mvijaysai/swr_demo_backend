@@ -1,0 +1,20 @@
+
+type Product {
+      id: Int!
+      date: String!
+     price: Float!
+     fromDate:String!
+     name : String!
+     toDate : String!
+     searchString: String!
+     imageUrl:String!
+}
+
+type Query {
+  getSearchedProducts(searchString: String, date : String): [Product]!
+  getFilteredProducts( searchString: String,
+    date : String,
+     minPrice:Float,
+      maxPrice : Float): [Product]!
+  getAllProducts: [Product]!
+}
