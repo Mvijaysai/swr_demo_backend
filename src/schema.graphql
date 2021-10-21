@@ -1,20 +1,41 @@
-
 type Product {
-      id: Int!
-      date: String!
-     price: Float!
-     fromDate:String!
-     name : String!
-     toDate : String!
-     searchString: String!
-     imageUrl:String!
+  id: Int!
+  date: String!
+  price: Float!
+  fromDate: String!
+  name: String!
+  toDate: String!
+  searchString: String!
+  imageUrl: String!
+}
+
+type Edge {
+  cursor: String
+  node: Product
+}
+type PageInfo {
+  endCursor: String
+  hasNextPage: Boolean
+}
+type Response {
+  edges: [Edge]
+  pageInfo: PageInfo
 }
 
 type Query {
-  getSearchedProducts(searchString: String, date : String): [Product]!
-  getFilteredProducts( searchString: String,
-    date : String,
-     minPrice:Float,
-      maxPrice : Float): [Product]!
-  getAllProducts: [Product]!
+  getSearchedProducts(
+    searchString: String
+    date: String
+    first: Int
+    after: String
+  ): Response
+  getFilteredProducts(
+    searchString: String
+    date: String
+    minPrice: Float
+    maxPrice: Float
+    first: Int
+    after: String
+  ):Response
+  getAllProducts(first: Int, after: String): Response
 }

@@ -25,17 +25,37 @@ export type Product = {
   imageUrl: Scalars['String'];
 };
 
+export type Edge = {
+  __typename?: 'Edge';
+  cursor?: Maybe<Scalars['String']>;
+  node?: Maybe<Product>;
+};
+
+export type PageInfo = {
+  __typename?: 'PageInfo';
+  endCursor?: Maybe<Scalars['String']>;
+  hasNextPage?: Maybe<Scalars['Boolean']>;
+};
+
+export type Response = {
+  __typename?: 'Response';
+  edges?: Maybe<Array<Maybe<Edge>>>;
+  pageInfo?: Maybe<PageInfo>;
+};
+
 export type Query = {
   __typename?: 'Query';
-  getSearchedProducts: Array<Maybe<Product>>;
-  getFilteredProducts: Array<Maybe<Product>>;
-  getAllProducts: Array<Maybe<Product>>;
+  getSearchedProducts?: Maybe<Response>;
+  getFilteredProducts?: Maybe<Response>;
+  getAllProducts?: Maybe<Response>;
 };
 
 
 export type QueryGetSearchedProductsArgs = {
   searchString?: Maybe<Scalars['String']>;
   date?: Maybe<Scalars['String']>;
+  first?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
 };
 
 
@@ -44,6 +64,14 @@ export type QueryGetFilteredProductsArgs = {
   date?: Maybe<Scalars['String']>;
   minPrice?: Maybe<Scalars['Float']>;
   maxPrice?: Maybe<Scalars['Float']>;
+  first?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryGetAllProductsArgs = {
+  first?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
 };
 
 
@@ -128,8 +156,11 @@ export type ResolversTypes = {
   Int: ResolverTypeWrapper<Scalars['Int']>;
   String: ResolverTypeWrapper<Scalars['String']>;
   Float: ResolverTypeWrapper<Scalars['Float']>;
-  Query: ResolverTypeWrapper<{}>;
+  Edge: ResolverTypeWrapper<Edge>;
+  PageInfo: ResolverTypeWrapper<PageInfo>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  Response: ResolverTypeWrapper<Response>;
+  Query: ResolverTypeWrapper<{}>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -138,8 +169,11 @@ export type ResolversParentTypes = {
   Int: Scalars['Int'];
   String: Scalars['String'];
   Float: Scalars['Float'];
-  Query: {};
+  Edge: Edge;
+  PageInfo: PageInfo;
   Boolean: Scalars['Boolean'];
+  Response: Response;
+  Query: {};
 };
 
 export type ProductResolvers<ContextType = any, ParentType extends ResolversParentTypes['Product'] = ResolversParentTypes['Product']> = {
@@ -154,14 +188,35 @@ export type ProductResolvers<ContextType = any, ParentType extends ResolversPare
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type EdgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Edge'] = ResolversParentTypes['Edge']> = {
+  cursor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  node?: Resolver<Maybe<ResolversTypes['Product']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type PageInfoResolvers<ContextType = any, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
+  endCursor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  hasNextPage?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['Response'] = ResolversParentTypes['Response']> = {
+  edges?: Resolver<Maybe<Array<Maybe<ResolversTypes['Edge']>>>, ParentType, ContextType>;
+  pageInfo?: Resolver<Maybe<ResolversTypes['PageInfo']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  getSearchedProducts?: Resolver<Array<Maybe<ResolversTypes['Product']>>, ParentType, ContextType, RequireFields<QueryGetSearchedProductsArgs, never>>;
-  getFilteredProducts?: Resolver<Array<Maybe<ResolversTypes['Product']>>, ParentType, ContextType, RequireFields<QueryGetFilteredProductsArgs, never>>;
-  getAllProducts?: Resolver<Array<Maybe<ResolversTypes['Product']>>, ParentType, ContextType>;
+  getSearchedProducts?: Resolver<Maybe<ResolversTypes['Response']>, ParentType, ContextType, RequireFields<QueryGetSearchedProductsArgs, never>>;
+  getFilteredProducts?: Resolver<Maybe<ResolversTypes['Response']>, ParentType, ContextType, RequireFields<QueryGetFilteredProductsArgs, never>>;
+  getAllProducts?: Resolver<Maybe<ResolversTypes['Response']>, ParentType, ContextType, RequireFields<QueryGetAllProductsArgs, never>>;
 };
 
 export type Resolvers<ContextType = any> = {
   Product?: ProductResolvers<ContextType>;
+  Edge?: EdgeResolvers<ContextType>;
+  PageInfo?: PageInfoResolvers<ContextType>;
+  Response?: ResponseResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
 };
 
